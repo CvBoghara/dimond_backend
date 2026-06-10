@@ -2,6 +2,7 @@ import {
   IsDateString,
   IsMongoId,
   IsNumber,
+  IsString,
 } from 'class-validator';
 
 export class CreateWorkEntryDto {
@@ -10,6 +11,9 @@ export class CreateWorkEntryDto {
 
   @IsMongoId()
   diamondId!: string;
+
+  @IsString()
+  workType!: string;
 
   @IsNumber()
   quantity!: number;

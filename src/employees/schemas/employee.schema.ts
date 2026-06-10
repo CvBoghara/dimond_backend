@@ -6,16 +6,16 @@ export type EmployeeDocument = Employee & Document;
 @Schema({ timestamps: true })
 export class Employee {
   @Prop({ required: true, unique: true })
-  employeeId: string;
+  employeeId!: string;
 
   @Prop({ required: true })
-  name: string;
+  name!: string;
 
   @Prop({ required: true })
-  department: string;
+  department!: string;
 
   @Prop({ required: true })
-  joiningDate: Date;
+  joiningDate!: Date;
 }
 
 export const EmployeeSchema =

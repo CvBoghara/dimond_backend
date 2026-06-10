@@ -9,12 +9,21 @@ import {
   WorkEntrySchema,
 } from '../work-entries/schemas/work-entry.schema';
 
+import {
+  Employee,
+  EmployeeSchema,
+} from '../employees/schemas/employee.schema';
+
 @Module({
   imports: [
     MongooseModule.forFeature([
       {
         name: WorkEntry.name,
         schema: WorkEntrySchema,
+      },
+      {
+        name: Employee.name,
+        schema: EmployeeSchema,
       },
     ]),
   ],

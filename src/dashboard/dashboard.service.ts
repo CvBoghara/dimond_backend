@@ -21,12 +21,15 @@ export class DashboardService {
       (sum, entry) => sum + entry.quantity * entry.ratePerPiece,
       0,
     );
+    const employee = await this.employeeModel.findOne();
 
     return {
       totalEmployees,
       totalDiamonds,
       totalWorkEntries,
       totalSalary,
+      employeeName: employee?.name,
+      department: employee?.department,
     };
   }
 }

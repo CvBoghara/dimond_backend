@@ -7,17 +7,29 @@ import {
   WorkEntryDocument,
 } from '../work-entries/schemas/work-entry.schema';
 
+import {
+  Employee,
+  EmployeeDocument,
+} from '../employees/schemas/employee.schema';
+
 @Injectable()
 export class SalaryService {
   constructor(
     @InjectModel(WorkEntry.name)
     private workEntryModel: Model<WorkEntryDocument>,
+
+    @InjectModel(Employee.name)
+    private employeeModel: Model<EmployeeDocument>,
   ) {}
 
   async calculateSalary(employeeId: string) {
     const entries = await this.workEntryModel.find({
       employeeId,
     });
+
+    const employee = await this.employeeModel.findById(
+      employeeId,
+    );
 
     const totalSalary = entries.reduce(
       (sum, entry) =>
@@ -27,6 +39,7 @@ export class SalaryService {
 
     return {
       employeeId,
+      employeeName: employee?.name,
       totalEntries: entries.length,
       totalSalary,
     };

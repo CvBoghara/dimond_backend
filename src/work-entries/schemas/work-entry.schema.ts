@@ -19,6 +19,12 @@ export class WorkEntry {
   })
   diamondId!: Types.ObjectId;
 
+  @Prop({
+    required: true,
+    enum: ['Cutting', 'Polishing', 'Grading'],
+  })
+  workType!: string;
+
   @Prop({ required: true })
   quantity!: number;
 
