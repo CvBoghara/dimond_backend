@@ -22,18 +22,28 @@ export class SalaryService {
     private employeeModel: Model<EmployeeDocument>,
   ) {}
 
+  calculateSalaryAmount(
+    quantity: number,
+    ratePerPiece: number,
+  ): number {
+    return quantity * ratePerPiece;
+  }
+
   async calculateSalary(employeeId: string) {
     const entries = await this.workEntryModel.find({
       employeeId,
     });
 
-    const employee = await this.employeeModel.findById(
-      employeeId,
-    );
+    const employee =
+      await this.employeeModel.findById(employeeId);
 
     const totalSalary = entries.reduce(
       (sum, entry) =>
-        sum + entry.quantity * entry.ratePerPiece,
+        sum +
+        this.calculateSalaryAmount(
+          entry.quantity,
+          entry.ratePerPiece,
+        ),
       0,
     );
 
