@@ -1,13 +1,16 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { Employee, EmployeeDocument } from '../employees/schemas/employee.schema';
+import { Diamond, DiamondDocument } from '../diamonds/schemas/diamond.schema';
+import { WorkEntry, WorkEntryDocument } from '../work-entries/schemas/work-entry.schema';
 
 @Injectable()
 export class DashboardService {
   constructor(
-    @InjectModel('Employee') private employeeModel: Model<any>,
-    @InjectModel('Diamond') private diamondModel: Model<any>,
-    @InjectModel('WorkEntry') private workEntryModel: Model<any>,
+    @InjectModel(Employee.name) private employeeModel: Model<EmployeeDocument>,
+    @InjectModel(Diamond.name) private diamondModel: Model<DiamondDocument>,
+    @InjectModel(WorkEntry.name) private workEntryModel: Model<WorkEntryDocument>,
   ) {}
 
   async getStats() {
@@ -18,18 +21,15 @@ export class DashboardService {
     const entries = await this.workEntryModel.find();
 
     const totalSalary = entries.reduce(
-      (sum, entry) => sum + entry.quantity * entry.ratePerPiece,
+      (sum, entry) => sum + entry.totalSalary,
       0,
     );
-    const employee = await this.employeeModel.findOne();
 
     return {
       totalEmployees,
       totalDiamonds,
       totalWorkEntries,
       totalSalary,
-      employeeName: employee?.name,
-      department: employee?.department,
     };
   }
 }

@@ -33,7 +33,15 @@ export class WorkEntry {
 
   @Prop({ required: true })
   date!: Date;
+
+  totalSalary!: number;
 }
 
-export const WorkEntrySchema =
-  SchemaFactory.createForClass(WorkEntry);
+export const WorkEntrySchema = SchemaFactory.createForClass(WorkEntry);
+
+WorkEntrySchema.virtual('totalSalary').get(function (this: WorkEntryDocument) {
+  return this.quantity * this.ratePerPiece;
+});
+
+WorkEntrySchema.set('toJSON', { virtuals: true });
+WorkEntrySchema.set('toObject', { virtuals: true });
